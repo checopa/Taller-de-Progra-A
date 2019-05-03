@@ -5,41 +5,40 @@
 using namespace std;
 
 int main(){
-    int n,j,k;
-    map<int,int> rep;
-    vector<int> cant;
-    cin>>n;
-    for(int i=0;i<n;i++){
-        cin>>j;
-        cant.push_back(j);
-    }
-    for (int i=0;i<n;i++){
-        j=cant[i];
-        k=2;
-        while(j>1){
-            if(j%k==0){
-                map<int,int>::iterator it=rep.find(k);
-                if(it!=rep.end()){
-                    it->second+=1;
-                }
-                else{
-                    rep.insert({k,1});
-                }
-                while(n%i==0){
-                    n/=i;
-            }
-            }
-            k++;
-        }
-    }
-    int max=0;
-    map<int,int>::iterator p = rep.begin();
-    while (p != rep.end() ){
-        if(p->second>max){
-            max=p->second;
-        }
-        p++;
-    }
-    cout<<max<<endl;
-    return 0;
+	int n,j,k,aux;
+	map<int,int> rep;
+	vector<int> cant(100001);
+	cin>>n;
+	for(int i=0;i<n;i++){
+		cin>>j;
+		cant[j]++;
+	}
+	for (int i=1;i<100001;i++){
+		j=cant[i];
+		if(j==0){
+			continue;		
+		}
+		aux=i;
+		k=2;
+		if(i==1){
+			rep[1]++;;
+		}
+		while(aux>1){
+		    if(aux%k==0){
+			rep[k]+=cant[i];
+			while(aux%k==0){
+			    aux/=k;
+		    }
+		    }
+		    k++;
+		}
+	}
+	int max=0;
+	for(auto kv:rep){
+		if(kv.second>max){
+			max=kv.second;
+		}	
+	}
+	cout<<max<<endl;
+	return 0;
 }
